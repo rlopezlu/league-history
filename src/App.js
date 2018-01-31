@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
+let queues = [];
 
 // TODO: use https://mushroom.teemo.gg/8.2/ for resources
 // TODO: add iconUrl to quickInfo
 // TODO: use constants for queue types
-
 
 const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//LeeSin_0.jpg
 // TODO:version might need to be updated per patch update
@@ -30,10 +29,19 @@ class App extends Component {
 class MainWrapper extends Component{
     constructor(props){
       super(props);
-      this.state = {gameData:[], loaded:false}
+      this.state = {gameData:[], loaded:false, queues:false}
     }
 
     componentDidMount(){
+
+      fetch('/queues')
+      .then(response => {return response.json()})
+      .then(data => {
+        queues = data;
+        console.log(queues);
+        this.setState({queues:true})
+      });
+
       fetch('/fakeData')
       .then(response =>{ return response.json()})
       .then(data => {
@@ -54,20 +62,23 @@ class MainWrapper extends Component{
 
     render(){
       let myElementReady = this.state.loaded
+      let myJsonReady = this.state.queues
       let myElement = null;
-      if(myElementReady){
+      if(myElementReady && myJsonReady){
         let quickInfo = this.state.gameData[0].quickInfo
         console.log("data is ready");
           myElement =
-            <div>
+            <div className="resultDiv">
+              <div className="bothSums">
               <SumInfo
                 icon={"3262"} // TODO: this is hardcoded
                 name={quickInfo.sumName} />
             <SumInfo
               icon={"588"}
               name={quickInfo.friend} />
+            </div>
+            <MatchList gameData={this.state.gameData}></MatchList>
           </div>
-
       } else {
         myElement = <p>Loading</p>
       console.log("data not ready");
@@ -75,28 +86,18 @@ class MainWrapper extends Component{
 
       return (
         <div>
-
-        {/* <SumInfo gameData={this.state.gameData} quickInfo={this.state.gameData[0].quickInfo}></SumInfo> */}
-        {myElement}
-        <MatchList gameData={this.state.gameData}></MatchList>
+          {myElement}
         </div>
       )
     }
   }
 
-function SumInfo (props){
-  function showProps(){
-    // console.log(props.gameData[0].quickInfo.sumIndex);
-  }
 
+function SumInfo (props){
   return (
-    <div className="playerSummary">
-      {/* <p>This is where the sum information goes like the name and icon</p> */}
-      {/* <button onClick={showProps}> Click me </button> */}
-    {/* <img src={this.props.gameData.participantIdentities.profileIcon}></img> */}
-      {/* <p>{props..quickInfo}</p> */}
+    <div className="sumInfo">
       <p>{props.name}</p>
-    <img className="iconImage"src={iconUrl+props.icon+".png"} />
+    <img className="iconImage" alt={props.icon} src={iconUrl+props.icon+".png"} />
     </div>
   )
 }
@@ -111,46 +112,67 @@ function MatchList(props) {
   )
 }
 
-
-
-
 function Match (props){
   const checkWinColor =
     () => props.match.quickInfo.win === "Win" ? "blueGame" : "redGame";
 
+    const getQueue =
+      (queueId) => {return queues[queueId].name}
+
+    const matchDate =
+      (millis) => {
+        let myDate = new Date(millis)
+
+        return myDate.getMonth()+1+"/"+myDate.getDate()+"/"+myDate.getFullYear()
+      }
+
+      const matchLength =
+        (seconds) => {
+          return Math.floor(seconds / 60)
+        }
+
   return (
-    <div className={checkWinColor()}>
-      <p>{props.match.quickInfo.win === "Win" ? "Victory" : "Defeat"}</p>
+    <div className={"match " + checkWinColor()}>
+
      <Player
-       // playerName={props.match.quickInfo.sumName}
        lane={props.match.quickInfo.lane}
        champ={props.match.champ1.name}
        img={props.match.champ1.key}
-       >
-       </Player>
-       <button><a target="_blank"
+       stats={props.match.participants[props.match.quickInfo.sumIndex-1].stats}
+     />
+   <div className="matchInfo">
+      <p>{props.match.quickInfo.win === "Win" ? "Victory" : "Defeat"}</p>
+    <p>Date: { matchDate(props.match.gameCreation)}</p>
+  <p>Length: {matchLength(props.match.gameDuration)} minutes</p>
+<button className="myButton"><a
+         target="_blank"
          href={matchUrl+props.match.gameId+'/'+
-         props.match.participantIdentities[0].player.accountId}>Match Details</a></button>
+          props.match.participantIdentities[0].player.accountId}>Match Details</a></button>
+       <p>Queue: {getQueue(props.match.queueId)}</p>
+      </div>
        <Player
-         // playerName={props.match.quickInfo.friend}
          lane={props.match.quickInfo.friendLane}
          champ={props.match.champ2.name}
          img={props.match.champ2.key}
-         >
-         </Player>
+         stats={props.match.participants[props.match.quickInfo.friendIndex-1].stats}
+       />
   </div>
   )
 }
 
 function Player (props){
+  const formatLane = (lane) => {
+    return lane.charAt(0)+ lane.slice(1).toLowerCase()
+  }
+
   return (
   <div className="playerClass">
-    <p> {props.lane} {props.champ}</p>
-  <img src={imgUrl+props.img+"_0.jpg"} alt={props.img} title={props.img}/>
-    {/* <h1>{props.player.name} </h1>
-  <h1>{props.player.role} hey</h1>
-<h1>{props.player.champion}</h1>
-  <h1>{props.player.kd.k} / {props.player.kd.d} / {props.player.kd.a}</h1> */}
+    <p> {formatLane(props.lane)} - {props.champ}</p>
+    <img src={imgUrl+props.img+"_0.jpg"} alt={props.img} title={props.img}/>
+<p>Champ Lvl: {props.stats.champLevel}</p>
+  <p>KDA: {props.stats.kills} / {props.stats.deaths} / {props.stats.assists}</p>
+    <p>CS: {props.stats.totalMinionsKilled + props.stats.neutralMinionsKilled}</p>
+
   </div>
   );
 };
@@ -188,47 +210,7 @@ class SummonerSearch extends Component {
 //     // prevent html submit page change
 //     console.log(this.state.sumName);
 //     event.preventDefault();
-//
-//     let myHeader = new Headers();
-//     myHeader.append('X-Riot-Token', 'RGAPI-1c906d75-696b-46f2-b046-1870f69cb995');
-//
-//     const headers = {
-//       'X-Riot-Token': 'RGAPI-1c906d75-696b-46f2-b046-1870f69cb995',
-//     }
-//       // "Origin": "https://developer.riotgames.com",
-//       // "Access-Control-Allow-Origin": "*",
-//       // "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
-//
-//       // "Accept-Language": "en-US,en;q=0.9,es;q=0.8",
-//       // "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
-//
-//
-//       fetch("https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/punkxpete?api_key=RGAPI-1c906d75-696b-46f2-b046-1870f69cb995")
-//         .then(
-//           function(response) {
-//             if (response.status !== 200) {
-//               console.log('Error. Status Code: ' + response.status);
-//               return;
-//             }
-//             // Examine the text in the response
-//             response.json().then(function(data) {
-//               console.log(data);
-//             });
-//           })
-//           .catch(function(err) {
-//             console.log('Fetch Error :-S', err);
-//           });
-//
-//     // axios.get(baseUrl + "summoner/v3/summoners/by-name/" + this.state.sumName,
-//     //   {header: headers}
-//     // )
-//     //   .then(function(response){
-//     //     console.log(response)
-//     //   })
-//     //   .catch(function(error){
-//     //       console.log(error);
-//     //   });
-//   }
+//}
 //
 //   render () {
 //     return (
