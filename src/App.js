@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 let queues = [];
+let champions = [];
 
 // TODO: use https://mushroom.teemo.gg/8.2/ for resources
-// TODO: add iconUrl to quickInfo
-// TODO: use constants for queue types
 
 const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//LeeSin_0.jpg
 // TODO:version might need to be updated per patch update
@@ -16,12 +15,9 @@ const matchUrl = "https://matchhistory.na.leagueoflegends.com/en/#match-details/
 class App extends Component {
   render() {
     return (
-      <div className="App">
-         <header className="App-header">
-           <SummonerSearch />
-        </header>
+      // <div className="App">
         <MainWrapper></MainWrapper>
-      </div>
+        // {/* </div> */}
     );
   }
 }
@@ -29,7 +25,14 @@ class App extends Component {
 class MainWrapper extends Component{
     constructor(props){
       super(props);
-      this.state = {gameData:[], loaded:false, queues:false}
+      this.state = {
+        gameData:[],
+        loaded:false,
+        queues:false,
+        champions:false,
+        sum0:"",
+        sum1:""
+      }
     }
 
     componentDidMount(){
@@ -38,66 +41,79 @@ class MainWrapper extends Component{
       .then(response => {return response.json()})
       .then(data => {
         queues = data;
-        console.log(queues);
+        console.log("got queue data");
         this.setState({queues:true})
       });
 
-      fetch('/fakeData')
+      fetch('/champions')
+      .then(response => {return response.json()})
+      .then(data =>{
+        champions = data;
+        console.log("got champion data")
+        this.setState({champions: true})
+      })
+
+      fetch('/demoData')
       .then(response =>{ return response.json()})
       .then(data => {
-        console.log(data);
-        let gameData = []
-        data[0].champ1 = Object.assign({}, data[2])
-        data[0].champ2 = Object.assign({}, data[3])
-        data[1].champ1 = Object.assign({}, data[4])
-        data[1].champ2 = Object.assign({}, data[5])
-        gameData.push(data[0])
-        gameData.push(data[1])
-
-        console.log("this is the state data");
-        this.setState( {gameData : gameData, loaded:true})
-        console.log(this.state.gameData);
+        console.log("got match history data");
+        this.setState( {gameData : data, loaded:true})
+        // console.log(this.state.gameData);
       })
     }
 
-    render(){
-      let myElementReady = this.state.loaded
-      let myJsonReady = this.state.queues
+    parentSubmitHandler = (value, summoner) => {
+      console.log("got the info all the way up");
+      console.log(`passed up value is "${value}"`);
+
+      if(summoner ===0){
+        this.setState({sum0:value})
+        console.log("sum0");
+      }else{
+        this.setState({sum1:value})
+        console.log("sum1");
+      }
+    }
+
+    render(){//conditional rendering of app
       let myElement = null;
-      if(myElementReady && myJsonReady){
-        let quickInfo = this.state.gameData[0].quickInfo
-        console.log("data is ready");
+      if(this.state.loaded && this.state.queues && this.state.champions){
+        let playerInfo = this.state.gameData[0].quickInfo.players
+        console.log("all data is ready, render app");
           myElement =
             <div className="resultDiv">
               <div className="bothSums">
-              <SumInfo
-                icon={"3262"} // TODO: this is hardcoded
-                name={quickInfo.sumName} />
-            <SumInfo
-              icon={"588"}
-              name={quickInfo.friend} />
+                {/*  TODO some icon have very different sizes*/}
+                <SumInfo
+                  icon={playerInfo[0].icon}
+                  name={playerInfo[0].sumName} />
+                <SumInfo
+                  icon={playerInfo[1].icon}
+                  name={playerInfo[1].sumName} />
+              </div>
+              <MatchList gameData={this.state.gameData}></MatchList>
             </div>
-            <MatchList gameData={this.state.gameData}></MatchList>
-          </div>
       } else {
         myElement = <p>Loading</p>
-      console.log("data not ready");
+      console.log("data not ready, do not render");
       }
 
       return (
-        <div>
+        <div className="App">
+          <header className="App-header">
+            <SummonerSearch parentSubmitHandler={this.parentSubmitHandler}/>
+          </header>
           {myElement}
         </div>
       )
     }
   }
 
-
 function SumInfo (props){
   return (
     <div className="sumInfo">
       <p>{props.name}</p>
-    <img className="iconImage" alt={props.icon} src={iconUrl+props.icon+".png"} />
+      <img className="iconImage" alt={props.icon} src={iconUrl+props.icon+".png"} />
     </div>
   )
 }
@@ -106,7 +122,7 @@ function MatchList(props) {
   return (
     <ul className="listContainer">
       {props.gameData.map( (match, index) => {
-        return <Match key={index} idx={index} match={match}></Match>
+        return <Match key={match.gameId} idx={index} match={match}></Match>
       })}
     </ul>
   )
@@ -114,36 +130,43 @@ function MatchList(props) {
 
 function Match (props){
   const checkWinColor =
-    () => props.match.quickInfo.win === "Win" ? "blueGame" : "redGame";
+    () => props.match.quickInfo.win === true ? "blueGame" : "redGame";
 
     const getQueue =
       (queueId) => {return queues[queueId].name}
 
     const matchDate =
       (millis) => {
+        console.log("this was used to make the date",millis)
         let myDate = new Date(millis)
-
         return myDate.getMonth()+1+"/"+myDate.getDate()+"/"+myDate.getFullYear()
       }
 
       const matchLength =
-        (seconds) => {
-          return Math.floor(seconds / 60)
+        (seconds) => {return Math.floor(seconds / 60)}
+
+        const findChamp = (champId) => {
+          return champions.find(x => {
+            //TODO make sure this works
+            return x.id === champId
+          })
         }
+
+      let player1 = props.match.quickInfo.players[0]
+      let player2 = props.match.quickInfo.players[1]
 
   return (
     <div className={"match " + checkWinColor()}>
 
      <Player
-       lane={props.match.quickInfo.lane}
-       champ={props.match.champ1.name}
-       img={props.match.champ1.key}
-       stats={props.match.participants[props.match.quickInfo.sumIndex-1].stats}
+       lane={player1.lane}
+       champion={findChamp(player1.champId)}
+       stats={player1.stats}
      />
    <div className="matchInfo">
-      <p>{props.match.quickInfo.win === "Win" ? "Victory" : "Defeat"}</p>
-    <p>Date: { matchDate(props.match.gameCreation)}</p>
-  <p>Length: {matchLength(props.match.gameDuration)} minutes</p>
+      <p>{props.match.quickInfo.win === true ? "Victory" : "Defeat"}</p>
+    <p>Date: {matchDate(props.match.quickInfo.date)}</p>
+  <p>Length: {matchLength(props.match.quickInfo.length)} minutes</p>
 <button className="myButton"><a
          target="_blank"
          href={matchUrl+props.match.gameId+'/'+
@@ -151,78 +174,85 @@ function Match (props){
        <p>Queue: {getQueue(props.match.queueId)}</p>
       </div>
        <Player
-         lane={props.match.quickInfo.friendLane}
-         champ={props.match.champ2.name}
-         img={props.match.champ2.key}
-         stats={props.match.participants[props.match.quickInfo.friendIndex-1].stats}
+         lane={player2.lane}
+         // champ={props.match.champ2.name}
+         champion={findChamp(player2.champId)}
+         // img={props.match.champ2.key}
+         stats={player2.stats}
        />
   </div>
   )
 }
 
 function Player (props){
+  let pStats = props.stats;
+  //lane (role) is all caps, so make it Caps instead
   const formatLane = (lane) => {
     return lane.charAt(0)+ lane.slice(1).toLowerCase()
   }
 
   return (
   <div className="playerClass">
-    <p> {formatLane(props.lane)} - {props.champ}</p>
-    <img src={imgUrl+props.img+"_0.jpg"} alt={props.img} title={props.img}/>
-<p>Champ Lvl: {props.stats.champLevel}</p>
-  <p>KDA: {props.stats.kills} / {props.stats.deaths} / {props.stats.assists}</p>
-    <p>CS: {props.stats.totalMinionsKilled + props.stats.neutralMinionsKilled}</p>
-
+    <p> {formatLane(props.lane)} - {props.champion.name}</p>
+    <img src={imgUrl+props.champion.alias+"_0.jpg"} alt={props.img} title={props.img} />
+    <p>Champ Lvl: {pStats.champLevel}</p>
+    <p>KDA: {pStats.kills} / {pStats.deaths} / {pStats.assists}</p>
+    <p>CS: {pStats.totalMinionsKilled + pStats.neutralMinionsKilled}</p>
   </div>
   );
 };
 
-class SummonerSearch extends Component {
-  constructor(props){
+
+class SearchBar extends Component{
+  constructor(props) {
     super(props);
-    this.state = {sum1:null, sum2:null};
+    this.state = {
+      inputVal:"",
+      validated:"invalid",
+      formatted:""
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({inputVal:e.target.value})
+    let str = e.target.value.replace(/\s+/g, '');
+    // TODO: figure out how to use unicode letters in regex
+    // let re = /^[0-9\\p{L}_\\.]+$/u;
+    let re = /^[A-Za-z._0-9]+$/;
+    if(re.test(str) ===true) {
+      console.log("valid " + str);
+      this.setState({validated:"valid"})
+    } else{
+      console.log("invalid "+str);
+      this.setState({validated:"invalid"})
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault(); //prevent redirect from form submission
+    console.log("there was a form submit");
+    this.props.parentSubmitHandler(this.state.inputVal, this.props.summoner)
+
   }
 
   render(){
-    return (
-      <div className="searchBarsDiv">
-        <p>This is where the search bar will go</p>
-      </div>
+    return(
+      <form onSubmit={this.handleSubmit}>
+        <input type ="text" value={this.state.inputVal} placeholder="Summoner Name" onChange={this.handleChange}></input>
+        <button disabled={this.state.validated != "valid"} type="submit">Search for Summoner</button>
+      </form>
     )
   }
 }
 
-// class SummonerSearch extends Component {
-//   constructor(props){
-//     super(props);
-//     this.state = {sumName: ''};
-//
-//     this.handleChange = this.handleChange.bind(this);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-//
-//
-//   handleChange = (event ) => {
-//     this.setState({sumName: event.target.value});
-//   }
-//
-//   handleSubmit(event){
-//     // prevent html submit page change
-//     console.log(this.state.sumName);
-//     event.preventDefault();
-//}
-//
-//   render () {
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <label>
-//         Summoner Name:
-//         <input type="text" value={this.state.value} onChange={this.handleChange} />
-//         </label>
-//         <input type="submit" value="submit" />
-//       </form>
-//     )
-//   }
-// }
+function SummonerSearch(props){
+  return(
+    <div className="searchBarsDiv">
+      <p>Enter your in game summoner name, and a friend's</p>
+      <SearchBar parentSubmitHandler = {props.parentSubmitHandler} summoner={0}/>
+      <SearchBar parentSubmitHandler = {props.parentSubmitHandler} summoner={1}/>
+    </div>
+  )
+}
 
 export default App;
