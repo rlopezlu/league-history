@@ -15,6 +15,7 @@ const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//L
 // TODO:version might need to be updated per patch update
 const iconUrl = "http://ddragon.leagueoflegends.com/cdn/8.2.1/img/profileicon/"//3262.png"
 
+// TODO: make this work with other regions as well
 //gameID, then playerid
 const matchUrl = "https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/"//2704428580/216172135"
 
