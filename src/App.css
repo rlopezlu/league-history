@@ -47,6 +47,16 @@ a{
   margin:1em;
 }
 
+.teamMember:hover{
+  background-color: #34495e;
+}
+
+.teamMember{
+  background-color: #2c3e50;
+  display: inline-block;
+  padding: 2em;
+}
+
 .matchInfo{
   position: relative;
   bottom: 5em;
@@ -79,10 +89,11 @@ img{
   margin-right: 5em;
   margin-left: 5em;
 }
-.iconImage{
+.iconImageTeamMates{
   margin: auto;
-  max-width: 8em;
-  max-height: 8em;
+  max-width: 4em;
+  max-height: 4em;
+  border-radius: 50%;
 }
 
 .blueGame{

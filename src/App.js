@@ -13,7 +13,8 @@ function errorCatching(response){
 
 const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//LeeSin_0.jpg
 // TODO:version might need to be updated per patch update
-const iconUrl = "http://ddragon.leagueoflegends.com/cdn/8.2.1/img/profileicon/"//3262.png"
+// TODO: get iconUrl version from request /lol/static-data/v3/versions
+const iconUrl = "http://ddragon.leagueoflegends.com/cdn/8.3.1/img/profileicon/"//3262.png"
 
 // TODO: make this work with other regions as well
 //gameID, then playerid
@@ -27,9 +28,8 @@ class App extends Component{
         loaded:false,
         queues:false,
         champions:false,
-        sum0:"",
-        sum1:"",
         region:'NA1',
+        testID: 50308642
       }
     }
 
@@ -75,11 +75,11 @@ class App extends Component{
       // })
     }
 
-    getPlayerInfo = (name, summoner) =>{
+    getPlayerInfo = (name) =>{
       fetch(`/sumNameId/${this.state.region}/${name}`)
       .then(response => {return response.json()})
       .then(data => {
-        this.setState({[summoner]:data})
+        this.setState({playerInfo:data})
         console.log(data);
       })
     }
@@ -88,58 +88,55 @@ class App extends Component{
       this.setState({region: e.target.value})
     }
 
-    // TODO: make sure both are valid summoners
     showParentState = () =>{
       console.log("showing updated State");
       console.log(this.state.region);
-      if(this.state.sum0 && this.state.sum1){
-        console.log("both searches are good");
-        console.log(this.state.sum0)
-        console.log(this.state.sum1)
-        let url = `/findFriend/${this.state.region.toLowerCase()}/${this.state.sum0.accountId}/${this.state.sum1.accountId}`
-        console.log(url);
-        fetch(url)
-        .then(response =>{ return response.json()})
-        .then(data => {
-          console.log("got match history data");
-          console.log(data);
-          this.setState( {gameData : data, loaded:true}, console.log(this.state.gameData))
-        })
-      }
+      let url = `/teamMatches/${this.state.region}/${this.state.testID}`
+      // let url="/demoData"
+      console.log(url);
+      fetch(url)
+      .then(response =>{ return response.json()})
+      .then(data => {
+        console.log("got match history data");
+        console.log(data);
+        this.setState({
+          gameData : data,
+          loaded:true,
+          friend: {
+            id:209891246,
+            name:"KraveMyGameCube"
+          }
+        },
+        console.log("data", this.state.gameData))
+      })
     }
 
     //get both summoner names from input fields
-    parentSubmitHandler = (value, summoner) => {
+    parentSubmitHandler = (value) => {
       console.log(`passed up value is "${value}"`);
-
-      if(summoner ===0){
-        this.getPlayerInfo(value, "sum0");
-        // this.setState({sum0:value})
-        console.log("sum0");
-      }else{
-        // this.setState({sum1:value})
-        this.getPlayerInfo(value, "sum1");
-        console.log("sum1");
-      }
+        this.getPlayerInfo(value);
     }
 
     render(){//conditional rendering of app
       let myElement = null;
       if(this.state.loaded && this.state.queues && this.state.champions){
-        let playerInfo = this.state.gameData[0].quickInfo.players
+        let playerInfo = this.state.gameData.mainUser;
         console.log("all data is ready, render app");
+        console.log(playerInfo);
           myElement =
             <div className="resultDiv">
               <div className="bothSums">
                 {/*  TODO some icon have very different sizes*/}
                 <SumInfo
-                  icon={playerInfo[0].icon}
-                  name={playerInfo[0].sumName} />
-                <SumInfo
-                  icon={playerInfo[1].icon}
-                  name={playerInfo[1].sumName} />
+                  icon={playerInfo.icon}
+                  name={playerInfo.name} />
               </div>
-              <MatchList gameData={this.state.gameData}></MatchList>
+              <TeamMates members={this.state.gameData.commonPlayers}/>
+              <MatchList
+                matches={this.state.gameData.matches}
+                friend={this.state.friend}
+                player={this.state.gameData.mainUser}
+              />
             </div>
       } else {
         myElement = <p>Loading</p>
@@ -163,6 +160,29 @@ class App extends Component{
     }
   }
 
+function TeamMates(props){
+    return (
+      props.members.map(member => {
+        return <SingleTeamMate
+          key={member.name}
+          name={member.name}
+          icon={member.icon}
+          id={member.id}
+          count={member.count}/>
+      })
+    )
+}
+
+function SingleTeamMate(props){
+  return(
+    <div className="teamMember">
+      <p>{props.name}</p>
+      <img className="iconImageTeamMates" alt={props.icon} src={iconUrl+props.icon+".png"} />
+      <p>{props.count} games</p>
+    </div>
+  )
+}
+
 function SumInfo (props){
   return (
     <div className="sumInfo">
@@ -173,10 +193,28 @@ function SumInfo (props){
 }
 
 function MatchList(props) {
+  //return only matches where friend played
+  function filteredList(matches){
+    console.log("matches");
+    // console.log(matches);
+    let filtered =  matches.filter((match, index) => {
+      console.log(match.playersObj);
+      return match.playersObj.hasOwnProperty(props.friend.name)
+    })
+    console.log("filtered");
+    console.log(filtered);
+    return filtered;
+  }
+
   return (
     <ul className="listContainer">
-      {props.gameData.map( (match, index) => {
-        return <Match key={match.gameId} idx={index} match={match}></Match>
+      {filteredList(props.matches).map((match, index) => {
+        return <Match
+          friend={props.friend}
+          player={props.player}
+          key={match.gameId}
+          idx={index}
+          match={match}></Match>
       })}
     </ul>
   )
@@ -184,7 +222,7 @@ function MatchList(props) {
 
 function Match (props){
   const checkWinColor =
-    () => props.match.quickInfo.win === true ? "blueGame" : "redGame";
+    () => props.match.team.win === "Win" ? "blueGame" : "redGame";
 
     const getQueue =
       (queueId) => {return queues[queueId].name}
@@ -200,37 +238,39 @@ function Match (props){
         (seconds) => {return Math.floor(seconds / 60)}
 
         const findChamp = (champId) => {
-          return champions.find(x => {
+          let myChamp = champions.find(x => {
             return x.id === champId
           })
+          console.log(myChamp);
+          return myChamp;
         }
 
-      let player1 = props.match.quickInfo.players[0]
-      let player2 = props.match.quickInfo.players[1]
+      let player1 = props.match.playersObj[props.player.name][0]
+      let player2 = props.match.playersObj[props.friend.name][0]
 
   return (
     <div className={"match " + checkWinColor()}>
 
       <Player
         lane={player1.lane}
-        champion={findChamp(player1.champId)}
+        champion={findChamp(player1.championId)}
         stats={player1.stats}
       />
       <div className="matchInfo">
-        <p>{props.match.quickInfo.win === true ? "Victory" : "Defeat"}</p>
-        <p>Date: {matchDate(props.match.quickInfo.date)}</p>
-        <p>Length: {matchLength(props.match.quickInfo.length)} minutes</p>
+        <p>{props.match.team.win === "Win" ? "Victory" : "Defeat"}</p>
+        <p>Date: {matchDate(props.match.gameCreation)}</p>
+        <p>Length: {matchLength(props.match.length)} minutes</p>
         <button className="myButton"><a
           target="_blank"
           href={matchUrl+props.match.gameId+'/'+
-          props.match.participantIdentities[0].player.accountId}>Match Details</a>
+          props.friend.id}>Match Details</a>
         </button>
-        <p>Queue: {getQueue(props.match.queueId)}</p>
+        <p>Queue: {getQueue(props.match.queue)}</p>
       </div>
       <Player
         lane={player2.lane}
         // champ={props.match.champ2.name}
-        champion={findChamp(player2.champId)}
+        champion={findChamp(player2.championId)}
         // img={props.match.champ2.key}
         stats={player2.stats}
       />
@@ -288,7 +328,7 @@ class SearchBar extends Component{
   handleSubmit = (e) => {
     e.preventDefault(); //prevent redirect from form submission
     console.log("there was a form submit");
-    this.props.parentSubmitHandler(this.state.formatted, this.props.summoner)
+    this.props.parentSubmitHandler(this.state.formatted)
   }
 
   render(){
@@ -328,8 +368,7 @@ class SummonerSearch extends Component{
             return <option value={region[1]} key={region[0]}>{region[0]}</option>
           })}
         </select>
-        <SearchBar parentSubmitHandler = {this.props.parentSubmitHandler} summoner={0}/>
-        <SearchBar parentSubmitHandler = {this.props.parentSubmitHandler} summoner={1}/>
+        <SearchBar parentSubmitHandler = {this.props.parentSubmitHandler}/>
       </div>
     )
   }
