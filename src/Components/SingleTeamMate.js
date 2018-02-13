@@ -1,4 +1,5 @@
 import React from 'react'
+import '../Styles/SingleTeamMate.css'
 
 // TODO:version might need to be updated per patch update
 // TODO: get iconUrl version from request /lol/static-data/v3/versions
@@ -13,7 +14,7 @@ function SingleTeamMate(props){
   }
 
   return(
-    <div className="teamMember" onClick={handleClick}>
+    <div className={"teamMember "+props.current} onClick={handleClick}>
       <p>{props.name}</p>
       <img className="iconImageTeamMates" alt={props.icon} src={iconUrl+props.icon+".png"} />
       <p>{props.count} games</p>

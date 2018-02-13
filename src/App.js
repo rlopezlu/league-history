@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './Styles/App.css';
 import MatchList from './Components/MatchList'
 import SummonerSearch from './Components/SummonerSearch'
 import TeamMates from './Components/TeamMates'
@@ -125,7 +125,9 @@ class App extends Component{
                 name={playerInfo.name} />
               {/* </div> */}
               <TeamMates selectTeamMate={this.selectTeamMate}
-                members={this.state.gameData.commonPlayers}/>
+                members={this.state.gameData.commonPlayers}
+                friend={this.state.friend}
+              />
               <MatchList
                 matches={this.state.gameData.matches}
                 friend={this.state.friend}

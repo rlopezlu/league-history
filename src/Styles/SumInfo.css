@@ -1,0 +1,10 @@
+.SumInfo{
+  /* background-color: #34495e; */
+  background-color: black;
+  color: #b38600;
+}
+
+.SumInfo img{
+  border: 1px solid #b38600;
+  max-width: 10em;
+}

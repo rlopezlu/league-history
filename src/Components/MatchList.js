@@ -1,5 +1,6 @@
 import React from 'react';
 import Match from './Match'
+import '../Styles/MatchList.css'
 
 function MatchList(props) {
   //return only matches where friend played
@@ -16,7 +17,7 @@ function MatchList(props) {
   }
 
   return (
-    <ul className="listContainer">
+    <ul className="matchlistContainer">
       {filteredList(props.matches).map((match, index) => {
         return <Match
           friend={props.friend}

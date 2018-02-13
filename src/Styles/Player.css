@@ -1,0 +1,10 @@
+.playerClass{
+  /* background-color: #34495e; */
+  display: inline-block;
+}
+
+.playerClass img{
+  /* max-width: 15em; */
+  /* max-height: auto; */
+  max-width: 45%;
+}

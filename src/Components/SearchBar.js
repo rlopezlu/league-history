@@ -5,10 +5,12 @@ class SearchBar extends React.Component{
     super(props);
     this.state = {
       inputVal:"ihyphyx510i",
-      validated:"invalid",
-      formatted:""
+      validated:"valid",
+      formatted:"ihyphyx510i"
     }
   }
+
+
 
   handleChange = (e) => {
     this.setState({inputVal:e.target.value})

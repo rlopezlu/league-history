@@ -1,5 +1,6 @@
 import React from 'react'
 import Player from './Player'
+import '../Styles/Match.css'
 
 const matchUrl = "https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/"//2704428580/216172135"
 
@@ -45,8 +46,8 @@ function Match (props){
         <p>Length: {matchLength(props.match.length)} minutes</p>
         <button className="myButton"><a
           target="_blank"
-          href={matchUrl+props.match.gameId+'/'+
-          props.friend.id}>Match Details</a>
+          href={matchUrl+props.match.matchId+'/'+
+          player1.accountId}>Match Details</a>
         </button>
         <p>Queue: {getQueue(props.match.queue)}</p>
       </div>

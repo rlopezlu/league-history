@@ -1,4 +1,5 @@
 import React from 'react';
+import '../Styles/Player.css'
 
 const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//LeeSin_0.jpg
 

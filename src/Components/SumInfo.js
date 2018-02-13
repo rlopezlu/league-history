@@ -1,4 +1,5 @@
 import React from 'react'
+import '../Styles/SumInfo.css'
 
 // TODO:version might need to be updated per patch update
 // TODO: get iconUrl version from request /lol/static-data/v3/versions
@@ -6,7 +7,7 @@ const iconUrl = "http://ddragon.leagueoflegends.com/cdn/8.3.1/img/profileicon/"/
 
 function SumInfo (props){
   return (
-    <div className="sumInfo">
+    <div className="SumInfo">
       <p>{props.name}</p>
       <img className="iconImage" alt={props.icon} src={iconUrl+props.icon+".png"} />
     </div>
