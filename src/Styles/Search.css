@@ -1,4 +1,14 @@
 .searchBarsDiv{
+  /* background-color:#16a085; */
+  background-color: black;
+  /* height: 150px; */
+  margin: 1em;
+  padding: 1em;
+  /* margin-top: -16px; */
+  /* padding: 20px; */
   /* color: #2c3e50; */
-  /* background-color: #16a085; */
+}
+
+.searchBarsDiv select{
+  margin-left: 1em;  
 }

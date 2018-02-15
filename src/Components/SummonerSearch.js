@@ -6,13 +6,13 @@ import '../Styles/Search.css'
 function SummonerSearch(props){
   return(
     <div className="searchBarsDiv">
-      <p>Enter your in game summoner name, and a friend's</p>
       Select Your Region
       <select value={props.selectedRegion} onChange={props.regionHandler}>
         {props.regions.map(region => {
           return <option value={region[1]} key={region[0]}>{region[0]}</option>
         })}
       </select>
+      <p>Enter your summoner name</p>
       <SearchBar parentSubmitHandler = {props.parentSubmitHandler}/>
     </div>
   )

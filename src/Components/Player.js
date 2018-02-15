@@ -1,7 +1,8 @@
 import React from 'react';
 import '../Styles/Player.css'
 
-const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//LeeSin_0.jpg
+// const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//LeeSin_0.jpg
+const imgUrl = "http://ddragon.leagueoflegends.com/cdn/8.3.1/img/champion/"//Aatrox.png
 
 function Player (props){
   let pStats = props.stats;
@@ -12,10 +13,15 @@ function Player (props){
 
   return (
   <div className="playerClass">
-    <p> {formatLane(props.lane)} - {props.champion.name}</p>
-    <img src={imgUrl+props.champion.alias+"_0.jpg"} alt={props.img} title={props.img} />
+    <p>{props.champion.name}</p>
+    <p> {formatLane(props.lane)}</p>
+    <img
+      // src={imgUrl+props.champion.alias+"_0.jpg"}
+      src={imgUrl+props.champion.alias+".png"}
+      alt={props.img}
+      title={props.img} />
     <p>Champ Lvl: {pStats.champLevel}</p>
-    <p>KDA: {pStats.kills} / {pStats.deaths} / {pStats.assists}</p>
+    <p>KDA: {pStats.kills}/{pStats.deaths}/{pStats.assists}</p>
     <p>CS: {pStats.totalMinionsKilled + pStats.neutralMinionsKilled}</p>
   </div>
   );

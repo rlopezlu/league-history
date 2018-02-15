@@ -40,17 +40,20 @@ function Match (props){
         champion={findChamp(player1.championId)}
         stats={player1.stats}
       />
+
       <div className="matchInfo">
         <p>{props.match.team.win === "Win" ? "Victory" : "Defeat"}</p>
         <p>Date: {matchDate(props.match.gameCreation)}</p>
         <p>Length: {matchLength(props.match.length)} minutes</p>
+        <p>Queue: {getQueue(props.match.queue)}</p>
         <button className="myButton"><a
           target="_blank"
+          rel="noopener noreferrer"
           href={matchUrl+props.match.matchId+'/'+
           player1.accountId}>Match Details</a>
         </button>
-        <p>Queue: {getQueue(props.match.queue)}</p>
       </div>
+
       <Player
         lane={player2.lane}
         champion={findChamp(player2.championId)}

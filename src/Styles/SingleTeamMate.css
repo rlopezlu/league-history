@@ -1,12 +1,20 @@
 .teamMember:hover{
   background-color: #3498db;
+  cursor: pointer;
+  /* box-shadow: 7px 7px 20px  black; */
 }
 
 .teamMember{
+  box-shadow: 5px 5px 20px  black;
   background-color: #2c3e50;
-  /* display: flex; */
-  /* flex-shrink: 1; */
-  padding: 2em;
+  flex-shrink: 1;
+  /* padding: .5em; */
+  font-size: .7em;
+  margin: .5em .5em .5em 0;
+  min-width: 7em;
+  max-width: 7em;
+   /* overflow: hidden; */
+  overflow-wrap: break-word;
 }
 
 .activePlayer{

@@ -7,12 +7,12 @@ import SumInfo from './Components/SumInfo'
 
 // TODO: use https://mushroom.teemo.gg/8.2/ for resources
 
-function errorCatching(response){
-  if(!response.ok){
-    throw Error(response.statusText)
-  }
-  return response;
-}
+// function errorCatching(response){
+//   if(!response.ok){
+//     throw Error(response.statusText)
+//   }
+//   return response;
+// }
 
 class App extends Component{
     constructor(props){
@@ -75,8 +75,8 @@ class App extends Component{
     showParentState = () =>{
       console.log("showing updated State");
       console.log(this.state.region);
-      // let url = `/teamMatches/${this.state.region}/${this.state.playerInfo.accountId}`
-      let url="/demoData"
+      let url = `/teamMatches/${this.state.region}/${this.state.playerInfo.accountId}`
+      // let url="/demoData"
       console.log(url);
       fetch(url)
       .then(response =>{ return response.json()})
@@ -143,16 +143,20 @@ class App extends Component{
 
       return (
         <div className="App">
-          <header className="App-header">
-            <SummonerSearch
-              parentSubmitHandler={this.parentSubmitHandler}
-              regionHandler={this.getRegion}
-              selectedRegion={this.state.region}
-              regions={this.regions}
-            />
-            {/* <button onClick={this.showParentState}>Show State</button> */}
-          </header>
+          <SummonerSearch
+            parentSubmitHandler={this.parentSubmitHandler}
+            regionHandler={this.getRegion}
+            selectedRegion={this.state.region}
+            regions={this.regions}
+          />
+          {/* <button onClick={this.showParentState}>Show State</button> */}
           {myElement}
+          <footer className="App-footer">
+            Check out this project on github
+            <a href="https://github.com/rlopezlu/reactlol" target="_blank" rel="noopener noreferrer">
+              <img className="github" src="/github.ico" alt="icon"/>
+            </a>
+          </footer>
         </div>
       )
     }

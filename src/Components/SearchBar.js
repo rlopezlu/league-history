@@ -1,16 +1,16 @@
 import React from 'react';
+import '../Styles/SearchBar.css'
 
 class SearchBar extends React.Component{
   constructor(props) {
     super(props);
+    // TODO: clear these values, set to invalid
     this.state = {
       inputVal:"ihyphyx510i",
       validated:"valid",
       formatted:"ihyphyx510i"
     }
   }
-
-
 
   handleChange = (e) => {
     this.setState({inputVal:e.target.value})
@@ -39,8 +39,13 @@ class SearchBar extends React.Component{
   render(){
     return(
       <form onSubmit={this.handleSubmit}>
-        <input type ="text" value={this.state.inputVal} placeholder="Summoner Name" onChange={this.handleChange}></input>
-        <button disabled={this.state.validated !== "valid"} type="submit">Search for Summoner</button>
+        <input type ="text"
+          className="text-input"
+          value={this.state.inputVal}
+          placeholder="Summoner Name"
+          onChange={this.handleChange} />
+        <button disabled={this.state.validated !== "valid"}
+        type="submit">Search for Summoner</button>
       </form>
     )
   }
