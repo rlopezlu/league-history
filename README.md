@@ -1,4 +1,7 @@
-Powered by official Rito games API
+Powered by official Riot games API    
+Node and express server proxies requests [github link](https://github.com/rlopezlu/serverlol)
+
+
 
 ### History With friends
 This Match history viewer adds filtering so you can see the games where you played with your closest 
