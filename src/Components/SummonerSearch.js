@@ -2,7 +2,6 @@ import React from 'react';
 import SearchBar from './SearchBar'
 import '../Styles/Search.css'
 
-// TODO: make this component hold state for all input
 function SummonerSearch(props){
   return(
     <div className="searchBarsDiv">

@@ -2,11 +2,13 @@ import React from 'react'
 import Player from './Player'
 import '../Styles/Match.css'
 
+// TODO: change so that region also changes
 const matchUrl = "https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/"//2704428580/216172135"
 
 function Match (props){
-  const checkWinColor =
-    () => props.match.team.win === "Win" ? "blueGame" : "redGame";
+  const checkWinColor = () => {
+    return props.match.team.win === "Win" ? "blueGame" : "redGame";
+  }
 
     const getQueue =
       (queueId) => {return props.queues[queueId].name}

@@ -8,10 +8,15 @@
   /* background-color: white; */
   /* box-shadow: 7px 7px 20px  black; */
   flex-wrap: wrap;
-  border: 0px solid white;
+  /* border: 1px solid #b38600; */
+
 }
 
 .teamMates{
+  background-color: #34495e;
+  background: linear-gradient(to bottom right, #34495e , #0f0f0f);
   margin-top: 1em;
+  border: 1px solid #b38600;
   padding-bottom: 1em;
+  box-shadow: 7px 7px 20px  black;
 }

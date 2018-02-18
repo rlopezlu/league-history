@@ -23,6 +23,7 @@ function Player (props){
     <p>Champ Lvl: {pStats.champLevel}</p>
     <p>KDA: {pStats.kills}/{pStats.deaths}/{pStats.assists}</p>
     <p>CS: {pStats.totalMinionsKilled + pStats.neutralMinionsKilled}</p>
+    <p>Gold: {pStats.goldEarned} </p>
   </div>
   );
 };
