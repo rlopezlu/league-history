@@ -1,3 +1,5 @@
+# LoL Match History
+
 Powered by official Riot games API    
 Node and express server proxies requests [github link](https://github.com/rlopezlu/serverlol)
 
