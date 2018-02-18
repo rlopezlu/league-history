@@ -15,7 +15,7 @@ function TeamMates(props){
   }
   return (
     <div className="teamMates">
-      <p>Select a team mate</p>
+      <p>Select a team mate from your last 15 games</p>
       <div className="teamWrapper">
         {props.members.map(member => {
           return <SingleTeamMate

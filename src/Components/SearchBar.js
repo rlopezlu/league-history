@@ -32,8 +32,14 @@ class SearchBar extends React.Component{
 
   handleSubmit = (e) => {
     e.preventDefault(); //prevent redirect from form submission
-    console.log("there was a form submit");
-    this.props.parentSubmitHandler(this.state.formatted)
+    console.log("there was a form submit");    
+    let formattedVal = this.state.formatted;
+    this.setState({
+      inputVal: "",
+      formatted: "",
+      validated: "invalid"
+    })
+    this.props.parentSubmitHandler(formattedVal)
   }
 
   render(){
