@@ -49,6 +49,9 @@ class App extends Component{
       .then(data => {
         console.log("got queue data");
         this.setState({queues:data})
+      })
+      .catch(error => {
+        console.log("no queue data fetched");
       });
 
       fetch('/champions')
@@ -56,6 +59,10 @@ class App extends Component{
       .then(data =>{
         console.log("got champion data")
         this.setState({champions: data})
+        console.log(data[12]);
+      })
+      .catch(error => {
+        console.log("no champion data fetched");
       })
     }
 
@@ -73,7 +80,7 @@ class App extends Component{
     }
 
     showParentState = () =>{
-      console.log("showing updated State");
+
       console.log(this.state.region);
       let url = `/teamMatches/${this.state.region}/${this.state.playerInfo.accountId}`
       // let url="/demoData"
@@ -110,7 +117,7 @@ class App extends Component{
       })
     }
 
-    render(){//conditional rendering of app
+    dataReady(){
       let myElement = null;
       if(this.state.loaded && this.state.queues && this.state.champions){
         let playerInfo = this.state.gameData.mainUser;
@@ -139,7 +146,16 @@ class App extends Component{
       } else {
         myElement = <p>Search for a summoner name</p>
       console.log("data not ready, do not render");
+
       }
+      return myElement;
+    }
+
+
+    render(){//conditional rendering of app
+
+
+
 
       return (
         <div className="App">
@@ -150,7 +166,7 @@ class App extends Component{
             regions={this.regions}
           />
           {/* <button onClick={this.showParentState}>Show State</button> */}
-          {myElement}
+          {this.dataReady()}
           <footer className="App-footer">
             Check out this project on github
             <a href="https://github.com/rlopezlu/reactlol" target="_blank" rel="noopener noreferrer">
