@@ -43,8 +43,9 @@ class App extends Component{
     ]
 
     componentDidMount(){
-
-      fetch('/queues')
+      let base = 'https://secret-basin-22820.herokuapp.com'
+      let queuesUrl = base + "/queues"
+      fetch(queuesUrl)
       .then(response => {return response.json()})
       .then(data => {
         console.log("got queue data");
@@ -54,7 +55,8 @@ class App extends Component{
         console.log("no queue data fetched");
       });
 
-      fetch('/champions')
+      let championsUrl = base+'/champions';
+      fetch(championsUrl)
       .then(response => {return response.json()})
       .then(data =>{
         console.log("got champion data")
@@ -67,7 +69,8 @@ class App extends Component{
     }
 
     getPlayerInfo = (name) =>{
-      fetch(`/sumNameId/${this.state.region}/${name}`)
+      let base = 'https://secret-basin-22820.herokuapp.com'
+      fetch(`${base}/sumNameId/${this.state.region}/${name}`)
       .then(response => {return response.json()})
       .then(data => {
         this.setState({playerInfo:data}, this.showParentState)
@@ -80,9 +83,9 @@ class App extends Component{
     }
 
     showParentState = () =>{
-
+      let base = 'https://secret-basin-22820.herokuapp.com'
       console.log(this.state.region);
-      let url = `/teamMatches/${this.state.region}/${this.state.playerInfo.accountId}`
+      let url = `${base}/teamMatches/${this.state.region}/${this.state.playerInfo.accountId}`
       // let url="/demoData"
       console.log(url);
       fetch(url)
@@ -151,11 +154,7 @@ class App extends Component{
       return myElement;
     }
 
-
     render(){//conditional rendering of app
-
-
-
 
       return (
         <div className="App">
@@ -177,6 +176,5 @@ class App extends Component{
       )
     }
   }
-
 
 export default App;
