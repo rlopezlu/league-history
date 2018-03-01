@@ -15,9 +15,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-  },
-  "proxy": "https://secret-basin-22820.herokuapp.com",
-  "//": "http://localhost:5000",
+  },  
   "devDependencies": {
     "gh-pages": "^1.1.0"
   }

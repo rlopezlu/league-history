@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Styles/App.css';
+import githubLogo from './github.ico'
 import MatchList from './Components/MatchList'
 import SummonerSearch from './Components/SummonerSearch'
 import TeamMates from './Components/TeamMates'
@@ -169,7 +170,7 @@ class App extends Component{
           <footer className="App-footer">
             Check out this project on github
             <a href="https://github.com/rlopezlu/reactlol" target="_blank" rel="noopener noreferrer">
-              <img className="github" src="/github.ico" alt="icon"/>
+              <img className="github" src={githubLogo} alt="icon"/>
             </a>
           </footer>
         </div>
