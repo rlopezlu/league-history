@@ -24,7 +24,8 @@ class App extends Component{
         queues: null,
         champions:null,
         region:'NA1',
-        testID: 216172135
+        testID: 216172135,
+        status: "Search for a summoner name"
       }
     }
 
@@ -70,11 +71,15 @@ class App extends Component{
     }
 
     getPlayerInfo = (name) =>{
+      this.setState({status:`Searching for ${name}`})
       let base = 'https://secret-basin-22820.herokuapp.com'
       fetch(`${base}/sumNameId/${this.state.region}/${name}`)
       .then(response => {return response.json()})
       .then(data => {
-        this.setState({playerInfo:data}, this.showParentState)
+        this.setState({
+          playerInfo:data,
+          status:`Found ${name} `
+        }, this.showParentState)
         console.log(data);
       })
     }
@@ -84,6 +89,7 @@ class App extends Component{
     }
 
     showParentState = () =>{
+      this.setState({status:`Loading match history`})
       let base = 'https://secret-basin-22820.herokuapp.com'
       console.log(this.state.region);
       let url = `${base}/teamMatches/${this.state.region}/${this.state.playerInfo.accountId}`
@@ -148,7 +154,11 @@ class App extends Component{
               />
             </div>
       } else {
-        myElement = <p>Search for a summoner name</p>
+        myElement = (
+          <div className="status">
+            <p>{this.state.status}</p>
+          </div>
+        )      
       console.log("data not ready, do not render");
 
       }

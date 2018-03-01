@@ -8,6 +8,9 @@
   /* border: 1px solid white; */
 }
 
+.status{
+  color: #2c3e50;
+}
 .mainElement{
   /* background-color: #16a085; */
   margin: 1em;
@@ -33,7 +36,8 @@ a{
 .App-footer{
   border: 1px solid #b38600;
   background-color: #34495e;
-  background: linear-gradient(to bottom right, #34495e , #0f0f0f);
+  /* background: linear-gradient(to right, #0f0f0f , #34495e); */
+  background: linear-gradient(to right,  #34495e, #2980b9);
   box-shadow: 7px 7px 20px  black;
   margin: 1em;
 }
