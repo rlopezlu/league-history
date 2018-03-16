@@ -31,8 +31,9 @@ function Match (props){
           return myChamp;
         }
 
-      let player1 = props.match.playersObj[props.player.name][0]
-      let player2 = props.match.playersObj[props.friend.name][0]
+      // TODO: update so that it returns based on ID not name
+      let player1 = props.match.playersObj[props.player.id]
+      let player2 = props.match.playersObj[props.friend.id]
 
   return (
     <div className={"match " + checkWinColor()}>

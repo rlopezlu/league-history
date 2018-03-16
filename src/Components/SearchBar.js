@@ -6,9 +6,9 @@ class SearchBar extends React.Component{
     super(props);
     // TODO: clear these values, set to invalid
     this.state = {
-      inputVal:"ihyphyx510i",
+      inputVal:"c9 sneaky",
       validated:"valid",
-      formatted:"ihyphyx510i"
+      formatted:"c9sneaky"
     }
   }
 
@@ -32,7 +32,7 @@ class SearchBar extends React.Component{
 
   handleSubmit = (e) => {
     e.preventDefault(); //prevent redirect from form submission
-    console.log("there was a form submit");    
+    console.log("there was a form submit");
     let formattedVal = this.state.formatted;
     this.setState({
       inputVal: "",

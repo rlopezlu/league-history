@@ -5,13 +5,14 @@ import '../Styles/MatchList.css'
 function MatchList(props) {
   //return only matches where friend played
   function filteredList(matches){
-    console.log("matches");
+    console.log("All matches");
     // console.log(matches);
-    let filtered =  matches.filter((match, index) => {
+    let filtered =  matches.filter(match => {
       console.log(match.playersObj);
-      return match.playersObj.hasOwnProperty(props.friend.name)
+      // return match.playersObj.hasOwnProperty(props.friend.name)
+      return match.playersObj[props.friend.id]
     })
-    console.log("filtered");
+    console.log("filtered. Show selected friend");
     console.log(filtered);
     return filtered;
   }

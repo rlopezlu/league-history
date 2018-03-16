@@ -2,7 +2,8 @@ import React from 'react';
 import '../Styles/Player.css'
 
 // const imgUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"//LeeSin_0.jpg
-const imgUrl = "http://ddragon.leagueoflegends.com/cdn/8.3.1/img/champion/"//Aatrox.png
+// TODO: save game version to app state, 
+const imgUrl = "http://ddragon.leagueoflegends.com/cdn/8.5.1/img/champion/"//Aatrox.png
 
 function Player (props){
   let pStats = props.stats;

@@ -6,6 +6,8 @@ import SummonerSearch from './Components/SummonerSearch'
 import TeamMates from './Components/TeamMates'
 import SumInfo from './Components/SumInfo'
 
+let base = 'https://secret-basin-22820.herokuapp.com'
+// let base = 'localhost:8000'
 // TODO: use https://mushroom.teemo.gg/8.2/ for resources
 
 // function errorCatching(response){
@@ -25,7 +27,8 @@ class App extends Component{
         champions:null,
         region:'NA1',
         testID: 216172135,
-        status: "Search for a summoner name"
+        status: "Search for a summoner name",
+        error: ''
       }
     }
 
@@ -45,7 +48,7 @@ class App extends Component{
     ]
 
     componentDidMount(){
-      let base = 'https://secret-basin-22820.herokuapp.com'
+      // let base = 'https://secret-basin-22820.herokuapp.com'
       let queuesUrl = base + "/queues"
       fetch(queuesUrl)
       .then(response => {return response.json()})
@@ -63,7 +66,7 @@ class App extends Component{
       .then(data =>{
         console.log("got champion data")
         this.setState({champions: data})
-        console.log(data[12]);
+        // console.log(data[12]);
       })
       .catch(error => {
         console.log("no champion data fetched");
@@ -71,16 +74,27 @@ class App extends Component{
     }
 
     getPlayerInfo = (name) =>{
-      this.setState({status:`Searching for ${name}`})
-      let base = 'https://secret-basin-22820.herokuapp.com'
+      this.setState(
+        {status:`Searching for ${name}`}
+      )
+      // let base = 'https://secret-basin-22820.herokuapp.com'
       fetch(`${base}/sumNameId/${this.state.region}/${name}`)
-      .then(response => {return response.json()})
-      .then(data => {
-        this.setState({
-          playerInfo:data,
-          status:`Found ${name} `
-        }, this.showParentState)
-        console.log(data);
+      .then(response => {
+        if(response.status !== 200){
+          this.setState({
+              error: 'That player name does not exist',
+              status: `${name} was not found`
+            })
+          return
+        }
+        response.json().then(data => {
+          this.setState({
+            playerInfo:data,
+            status:`Found ${name} `
+          }, this.showParentState)
+          console.log("Main player");
+          console.log(data);
+        })
       })
     }
 
@@ -90,7 +104,7 @@ class App extends Component{
 
     showParentState = () =>{
       this.setState({status:`Loading match history`})
-      let base = 'https://secret-basin-22820.herokuapp.com'
+      // let base = 'https://secret-basin-22820.herokuapp.com'
       console.log(this.state.region);
       let url = `${base}/teamMatches/${this.state.region}/${this.state.playerInfo.accountId}`
       // let url="/demoData"
@@ -107,8 +121,10 @@ class App extends Component{
             // id:205215452,
             // name:"LoneWolf59"
           }
-        },
-        console.log("data", this.state.gameData))
+        }, () => {
+        console.log("All Matches data")
+        console.log(this.state.gameData)
+      })
       })
     }
 
@@ -158,7 +174,7 @@ class App extends Component{
           <div className="status">
             <p>{this.state.status}</p>
           </div>
-        )      
+        )
       console.log("data not ready, do not render");
 
       }
