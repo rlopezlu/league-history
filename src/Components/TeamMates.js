@@ -13,9 +13,17 @@ function TeamMates(props){
       return ''
     }
   }
+
+  function teamMatesPrompt(){
+    if (props.members.length > 0){
+      return <p>Select a team mate from your last 15 games</p>
+    }
+    return <p>You do not have enough games with friends</p>
+  }
   return (
     <div className="teamMates">
-      <p>Select a team mate from your last 15 games</p>
+      {teamMatesPrompt()}
+
       <div className="teamWrapper">
         {props.members.map(member => {
           return <SingleTeamMate
