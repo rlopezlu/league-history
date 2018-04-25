@@ -11,7 +11,10 @@ function Match (props){
   }
 
     const getQueue =
-      (queueId) => {return props.queues[queueId].name}
+      (queueId) => {
+        console.log("QUEUE ID ", queueId);
+        return props.queues[queueId].name
+      }
 
     const matchDate =
       (millis) => {
@@ -45,10 +48,10 @@ function Match (props){
       />
 
       <div className="matchInfo">
-        <p>{props.match.team.win === "Win" ? "Victory" : "Defeat"}</p>
-        <p>Date: {matchDate(props.match.gameCreation)}</p>
-        <p>Length: {matchLength(props.match.length)} minutes</p>
-        <p>Queue: {getQueue(props.match.queue)}</p>
+        <p className="matchResult">{props.match.team.win === "Win" ? "Victory" : "Defeat"}</p>
+        <p>{matchDate(props.match.gameCreation)}</p>
+        <p>{matchLength(props.match.length)} minutes</p>
+        <p>{getQueue(props.match.queue)}</p>
         <button className="myButton"><a
           target="_blank"
           rel="noopener noreferrer"

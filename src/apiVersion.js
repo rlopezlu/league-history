@@ -1,2 +1,2 @@
-const version = '8.7.1'
+const version = '8.8.1'
 export default version

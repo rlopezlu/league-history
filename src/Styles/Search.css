@@ -13,6 +13,18 @@
   border: 1px solid #b38600;
 }
 
+.subPrompt{
+  margin: 1em;
+  color: #95a5a6;
+}
+
+.SearchPrompt{
+  font-size: 1.7em;
+  font-weight: 300;
+  margin: 0 0 .5em 0;
+}
+
 .searchBarsDiv select{
   margin-left: 1em;
+  font-size: 1.1em;
 }

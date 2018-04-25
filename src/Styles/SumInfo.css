@@ -8,6 +8,7 @@
   font-size: 1.1em;
   box-shadow: 5px 5px 20px  black;
   border: 1px solid #b38600;
+  padding: 1em 0;
 }
 
 .SumInfo img{
@@ -15,4 +16,9 @@
   max-width: 5em;
   box-shadow: 5px 5px 20px  black;
   margin: 10px 0;
+}
+
+.SumInfo .sumName{
+  font-size: 1.5em;
+  font-weight: 300;
 }

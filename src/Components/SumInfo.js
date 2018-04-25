@@ -9,7 +9,7 @@ const iconUrl = `http://ddragon.leagueoflegends.com/cdn/${version}/img/profileic
 function SumInfo (props){
   return (
     <div className="SumInfo">
-      <p>{props.name}</p>
+      <p className="sumName">{props.name}</p>
       <img className="iconImage" alt={props.icon} src={iconUrl+props.icon+".png"} />
     </div>
   )

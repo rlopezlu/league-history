@@ -15,13 +15,14 @@ function Player (props){
 
   return (
   <div className="playerClass">
-    <p>{props.champion.name}</p>
-    <p> {formatLane(props.lane)}</p>
+    <p className="champName">{props.champion.name}</p>
+
     <img
       // src={imgUrl+props.champion.alias+"_0.jpg"}
       src={imgUrl+props.champion.alias+".png"}
       alt={props.img}
       title={props.img} />
+    <p> {formatLane(props.lane)}</p>
     <p>Champ Lvl: {pStats.champLevel}</p>
     <p>KDA: {pStats.kills}/{pStats.deaths}/{pStats.assists}</p>
     <p>CS: {pStats.totalMinionsKilled + pStats.neutralMinionsKilled}</p>

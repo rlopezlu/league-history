@@ -51,6 +51,11 @@
   /* background-color: #d35400; */
 }
 
+.matchResult{
+  font-size: 2em;
+  font-weight: 300;
+}
+
 @media only screen and (max-width: 570px) {
     .matchInfo {
         order: 1;

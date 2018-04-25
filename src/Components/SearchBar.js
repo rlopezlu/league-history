@@ -50,8 +50,11 @@ class SearchBar extends React.Component{
           value={this.state.inputVal}
           placeholder="Summoner Name"
           onChange={this.handleChange} />
+        <br/>
         <button disabled={this.state.validated !== "valid"}
-        type="submit">Search for Summoner</button>
+          type="submit"
+          className="searchButton"
+        >Search for Summoner</button>
       </form>
     )
   }
