@@ -1,20 +1,19 @@
 .SumInfo{
-  /* background-color: #34495e; */
-  /* background-color: black; */
   background-color: #34495e;
   background: linear-gradient(to bottom right, #34495e , #0f0f0f);
   color: #b38600;
-  font-weight: bolder;
   font-size: 1.1em;
-  box-shadow: 5px 5px 20px  black;
+  /* box-shadow: 5px 5px 20px  black; */
   border: 1px solid #b38600;
-  padding: 1em 0;
+  width: 100%;
+  /* padding: 1em 0; */
 }
 
 .SumInfo img{
   border: 1px solid #b38600;
   max-width: 5em;
-  box-shadow: 5px 5px 20px  black;
+  border-radius: 5%;
+  /* box-shadow: 5px 5px 20px  black; */
   margin: 10px 0;
 }
 

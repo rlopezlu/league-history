@@ -44,13 +44,15 @@ class SearchBar extends React.Component{
 
   render(){
     return(
-      <form onSubmit={this.handleSubmit}>
-        <input type ="text"
-          className="text-input"
-          value={this.state.inputVal}
-          placeholder="Summoner Name"
-          onChange={this.handleChange} />
-        <br/>
+      <form className="formWrap" onSubmit={this.handleSubmit}>
+        <div className="SearchInputWrap">
+          {/* <p className="subPrompt">Enter your summoner name</p> */}
+          <input type ="text"
+            className="text-input"
+            value={this.state.inputVal}
+            placeholder="Summoner Name"
+            onChange={this.handleChange} />
+        </div>
         <button disabled={this.state.validated !== "valid"}
           type="submit"
           className="searchButton"

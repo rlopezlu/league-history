@@ -22,7 +22,9 @@ function TeamMates(props){
   }
   return (
     <div className="teamMates">
-      {teamMatesPrompt()}
+      <div className="prompt">
+        {teamMatesPrompt()}
+      </div>
 
       <div className="teamWrapper">
         {props.members.map(member => {

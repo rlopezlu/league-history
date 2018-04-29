@@ -2,9 +2,9 @@
   /* margin:1em; */
   display: flex;
   /* flex-wrap: wrap; */
-  justify-content: center;
-  margin-bottom: 1em;
-  box-shadow: 7px 7px 20px  black;
+  justify-content: space-around;
+  margin-bottom: .5em;
+  /* box-shadow: 7px 7px 20px  black; */
   background-color: #34495e;
   /* border: 1px solid #b38600; */
   /* background: linear-gradient(to bottom right, #34495e , #0f0f0f); /* Standard syntax (must be last) */
@@ -13,25 +13,26 @@
 
 .myButton{
   background-color: #16a085;
-  border: none;
   color: white;
   padding: 1em;
   text-align: center;
   font-size: 16px;
   margin: 4px 2px;
+  /* box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); */
   cursor: pointer;
-  border: 1px solid white;
+  border: none;
+  transition: background-color .2s, box-shadow .2s;
 }
 
 .myButton:hover{
-  border: 1px solid black;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  background-color: #1abc9c;
 }
 
 .matchInfo{
   /* position: relative; */
   /* bottom: 5em; */
   /* order: 1; */
-  border-width: 0 0 0 0;
 
   padding: 1em;
 
@@ -42,18 +43,17 @@
 }
 
 .blueGame{
-  /* background-color: #3498db; */
-  background: linear-gradient(to bottom right, #34495e, #3498db);
-  /* background: linear-gradient(to bottom right, #34495e 50%, #3498db) */
+  /* background: linear-gradient(to bottom right, #34495e, #3498db); */
+  background: linear-gradient(to bottom right, #42a5f5, #0d47a1);
 }
 .redGame{
-  background: linear-gradient(to bottom right, #34495e , #d35400 )
-  /* background-color: #d35400; */
+  background: linear-gradient(to bottom right, #ef5350 , #b71c1c )
 }
 
 .matchResult{
   font-size: 2em;
   font-weight: 300;
+  letter-spacing: 1px;
 }
 
 @media only screen and (max-width: 570px) {

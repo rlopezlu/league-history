@@ -5,6 +5,7 @@ import MatchList from './Components/MatchList'
 import SummonerSearch from './Components/SummonerSearch'
 import TeamMates from './Components/TeamMates'
 import SumInfo from './Components/SumInfo'
+import Status from './Components/Status'
 
 let base = 'https://secret-basin-22820.herokuapp.com'
 // let base = 'localhost:8000'
@@ -153,27 +154,34 @@ class App extends Component{
             <div className="mainElement">
               {/* <div className="mainUser"> */}
               {/*  TODO some icon have very different sizes*/}
-              <SumInfo
-                icon={playerInfo.icon}
-                name={playerInfo.name} />
-              {/* </div> */}
-              <TeamMates selectTeamMate={this.selectTeamMate}
-                members={this.state.gameData.commonPlayers}
-                friend={this.state.friend}
-              />
-              <MatchList
-                matches={this.state.gameData.matches}
-                friend={this.state.friend}
-                champions={this.state.champions}
-                queues={this.state.queues}
-                player={this.state.gameData.mainUser}
-              />
+              <div className="leftContent">
+                <SumInfo
+                  icon={playerInfo.icon}
+                  name={playerInfo.name} />
+                {/* </div> */}
+                <TeamMates selectTeamMate={this.selectTeamMate}
+                  members={this.state.gameData.commonPlayers}
+                  friend={this.state.friend}
+                />
+              </div>
+              <div className="rightContent">
+                <MatchList
+                  matches={this.state.gameData.matches}
+                  friend={this.state.friend}
+                  champions={this.state.champions}
+                  queues={this.state.queues}
+                  player={this.state.gameData.mainUser}
+                />
+              </div>
             </div>
       } else {
         myElement = (
-          <div className="status">
-            <p>{this.state.status}</p>
-          </div>
+          //<div className="status">
+            //<p>{this.state.status}</p>
+            <Status
+              text={this.state.status}
+            />
+          // </div>
         )
       console.log("data not ready, do not render");
 
@@ -191,8 +199,7 @@ class App extends Component{
             selectedRegion={this.state.region}
             regions={this.regions}
           />
-          {/* <button onClick={this.showParentState}>Show State</button> */}
-          {this.dataReady()}
+          {this.dataReady()} 
           <footer className="App-footer">
             Check out this project on github
             <a href="https://github.com/rlopezlu/reactlol" target="_blank" rel="noopener noreferrer">

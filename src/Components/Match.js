@@ -3,6 +3,7 @@ import Player from './Player'
 import '../Styles/Match.css'
 
 // TODO: change so that region also changes
+// TODO: add css fallback for gradients
 const matchUrl = "https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/"//2704428580/216172135"
 
 function Match (props){
@@ -48,7 +49,7 @@ function Match (props){
       />
 
       <div className="matchInfo">
-        <p className="matchResult">{props.match.team.win === "Win" ? "Victory" : "Defeat"}</p>
+        <p className="matchResult">{(props.match.team.win === "Win" ? "Victory" : "Defeat").toUpperCase()}</p>
         <p>{matchDate(props.match.gameCreation)}</p>
         <p>{matchLength(props.match.length)} minutes</p>
         <p>{getQueue(props.match.queue)}</p>

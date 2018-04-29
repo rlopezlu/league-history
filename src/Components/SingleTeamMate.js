@@ -16,9 +16,9 @@ function SingleTeamMate(props){
 
   return(
     <div className={"teamMember "+props.current} onClick={handleClick}>
-      <p>{props.count} games</p>
-      <img className="iconImageTeamMates" alt={props.icon} src={iconUrl+props.icon+".png"} />
       <p>{props.name}</p>
+      <img className="iconImageTeamMates" alt={props.icon} src={iconUrl+props.icon+".png"} />
+      <p>{props.count} games</p>
     </div>
   )
 }

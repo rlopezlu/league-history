@@ -5,17 +5,24 @@
   text-align: center;
   width: 100%;
   height: 100%;
+  /* font-size: 16px; */
   /* border: 1px solid white; */
+  margin: auto;
 }
 
 .status{
   color: #2c3e50;
 }
 .mainElement{
+  display: flex;
   /* background-color: #16a085; */
-  margin: 1em;
+  /* margin: 1em; */
+  margin: auto;
   padding: 1em;
+  justify-content: space-between;
+  flex-wrap: wrap;
   /* border: 1px solid #b38600; */
+  width: 80%;
 }
 
 body{
@@ -24,9 +31,11 @@ body{
   font-family: sans-serif;
   color: white;
   height: 100%;
+  padding: 0;
   width: 100%;
   /* max-width: 100%; */
   font-size: medium;
+  /* font-size: 16px; */
 }
 
 a{
@@ -49,9 +58,32 @@ a{
 }
 
 
+.leftContent{
+  display: inline-block;
+  width: 33%;
+}
+
+.rightContent{
+  display: inline-block;
+  width: 66%;
+}
 
 img{
   max-width: 100%;
   max-height: auto;
   max-height: auto\9; /* ie* */
+}
+
+@media only screen and (max-width: 570px) {
+    .mainElement{
+      width: 90%;
+    }
+
+    .leftContent {
+        width: 100%;
+    }
+    .rightContent{
+      width: 100%;
+      margin-top: 1em;
+    }
 }

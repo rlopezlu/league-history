@@ -1,12 +1,11 @@
-
 .text-input{
-  margin: 1em;
-  padding: 10px 15px;
-
-  font-size: 20px;
-  border-radius: 200px;
-  border: none;
-  border: 3px solid #95a5a6;
+  margin:  1em;
+  padding: .2em .7em;
+  font-size: 1.1em;
+  border-radius: 2em;
+  font-weight: 300;
+  /* border: none; */
+  border: 1px solid #95a5a6;
   background-color: black;
   color: white;
   transition: border .5s ;
@@ -14,23 +13,43 @@
 
 .text-input:focus{
   outline: none;
-  border: 3px solid #ecf0f1;
+  border: 2px solid #f1f1f1;
 }
 
 .text-input::placeholder{
   color:  #95a5a6;
 }
 
+.SearchInputWrap{
+  display: inline-block;
+  margin: auto;
+}
+
+.formWrap{
+  margin: auto;
+  display: inline-block;
+}
+
 .searchButton{
-  font-size: 20px;
+  padding: .8em;
+  /* font-size: 20px; */
+  margin: 1em;
+  font-size: 1em;
   cursor: pointer;
-  background-color: #1abc9c;
+  border: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  background-color: #16a085;
   color: white;
-  transition: background-color 1s;
+  display: inline-block;
+  transition: background-color .3s;
+}
+
+.searchButton:hover{
+  background-color: #1abc9c;
 }
 
 .searchButton:disabled{
   background-color: #c0392b;
   color:white;
-  border: 1px transparent white;
+  /* border: 1px transparent white; */
 }

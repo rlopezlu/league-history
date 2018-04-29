@@ -1,6 +1,6 @@
 .teamWrapper{
   /* margin: 1em; */
-  margin-top: 1em;
+  /* margin-top: 1em; */
   display: flex;
   justify-content: space-around;
   /* border: 1px solid grey; */
@@ -16,7 +16,14 @@
   background-color: #34495e;
   background: linear-gradient(to bottom right, #34495e , #0f0f0f);
   margin-top: 1em;
+  padding-top: 1em;
   border: 1px solid #b38600;
   padding-bottom: 1em;
-  box-shadow: 7px 7px 20px  black;
+  /* box-shadow: 7px 7px 20px  black; */
+}
+
+.prompt p{
+  font-size: 1.5em;
+  font-weight: 300;
+  padding: .5em;
 }
