@@ -6,9 +6,9 @@ class SearchBar extends React.Component{
     super(props);
     // TODO: clear these values, set to invalid
     this.state = {
-      inputVal:"c9 sneaky",
+      inputVal:"aphromoo",
       validated:"valid",
-      formatted:"c9sneaky"
+      formatted:"aphromoo"
     }
   }
 
